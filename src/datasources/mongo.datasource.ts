@@ -4,7 +4,7 @@ import {juggler} from '@loopback/repository';
 const config = {
   name: 'mongo',
   connector: 'mongodb',
-  url: 'mongodb://admin:poiuytrewqa1A@localhost:27017/micro?authSource=admin',
+  url: process.env.MONGO_URL,
   useNewUrlParser: true,
   useUnifiedTopology: true
 };
