@@ -1,5 +1,5 @@
 import {AuthenticationComponent} from '@loopback/authentication';
-import {JWTAuthenticationComponent, UserServiceBindings} from '@loopback/authentication-jwt';
+import {JWTAuthenticationComponent, TokenServiceBindings, UserServiceBindings} from '@loopback/authentication-jwt';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
@@ -51,6 +51,22 @@ export class ApiApplication extends BootMixin(
     this.component(JWTAuthenticationComponent);
     // Bind datasource
     this.dataSource(MongoDataSource, UserServiceBindings.DATASOURCE_NAME);
+
+
+    // Bind JWT configurations
+    const jwtSecret = process.env.JWT_SECRET;
+    const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
+
+    if (!jwtSecret) {
+      throw new Error('JWT_SECRET is not set');
+    }
+
+    if (!jwtExpiresIn) {
+      throw new Error('JWT_EXPIRES_IN is not set');
+    }
+
+    this.bind(TokenServiceBindings.TOKEN_SECRET).to(jwtSecret);
+    this.bind(TokenServiceBindings.TOKEN_EXPIRES_IN).to(jwtExpiresIn);
     // ------------- END OF SNIPPET -------------
 
   }
