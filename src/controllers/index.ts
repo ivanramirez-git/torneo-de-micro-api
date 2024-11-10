@@ -22,3 +22,4 @@ export * from './partido.controller';
 export * from './estadistica-partido.controller';
 export * from './solicitud-tiempo.controller';
 export * from './penal.controller';
+export * from './user.controller';

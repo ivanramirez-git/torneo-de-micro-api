@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -45,6 +46,7 @@ export class PartidoPenalController {
     return this.partidoRepository.penales(id).find(filter);
   }
 
+  @authenticate('jwt')
   @post('/partidos/{id}/penals', {
     responses: {
       '200': {
@@ -70,6 +72,7 @@ export class PartidoPenalController {
     return this.partidoRepository.penales(id).create(penal);
   }
 
+  @authenticate('jwt')
   @patch('/partidos/{id}/penals', {
     responses: {
       '200': {
@@ -93,6 +96,7 @@ export class PartidoPenalController {
     return this.partidoRepository.penales(id).patch(penal, where);
   }
 
+  @authenticate('jwt')
   @del('/partidos/{id}/penals', {
     responses: {
       '200': {

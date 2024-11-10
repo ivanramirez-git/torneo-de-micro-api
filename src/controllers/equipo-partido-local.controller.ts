@@ -1,4 +1,5 @@
 // src/controllers/equipo-partido-local.controller.ts
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -39,6 +40,7 @@ export class EquipoPartidoLocalController {
     return this.equipoRepository.partidosEquipoLocal(id).find(filter);
   }
 
+  @authenticate('jwt')
   @post('/equipos/{id}/partidos-local', {
     responses: {
       '200': {
@@ -65,6 +67,7 @@ export class EquipoPartidoLocalController {
     return this.equipoRepository.partidosEquipoLocal(id).create(partido);
   }
 
+  @authenticate('jwt')
   @patch('/equipos/{id}/partidos-local', {
     responses: {
       '200': {
@@ -86,6 +89,7 @@ export class EquipoPartidoLocalController {
     return this.equipoRepository.partidosEquipoLocal(id).patch(partido, where);
   }
 
+  @authenticate('jwt')
   @del('/equipos/{id}/partidos-local', {
     responses: {
       '200': {

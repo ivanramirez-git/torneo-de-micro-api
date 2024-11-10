@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {LugarRepository} from '../repositories';
 export class LugarController {
   constructor(
     @repository(LugarRepository)
-    public lugarRepository : LugarRepository,
-  ) {}
+    public lugarRepository: LugarRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/lugares')
   @response(200, {
     description: 'Lugar model instance',
@@ -76,6 +78,7 @@ export class LugarController {
     return this.lugarRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/lugares')
   @response(200, {
     description: 'Lugar PATCH success count',
@@ -111,6 +114,7 @@ export class LugarController {
     return this.lugarRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/lugares/{id}')
   @response(204, {
     description: 'Lugar PATCH success',
@@ -129,6 +133,7 @@ export class LugarController {
     await this.lugarRepository.updateById(id, lugar);
   }
 
+  @authenticate('jwt')
   @put('/lugares/{id}')
   @response(204, {
     description: 'Lugar PUT success',
@@ -140,6 +145,7 @@ export class LugarController {
     await this.lugarRepository.replaceById(id, lugar);
   }
 
+  @authenticate('jwt')
   @del('/lugares/{id}')
   @response(204, {
     description: 'Lugar DELETE success',

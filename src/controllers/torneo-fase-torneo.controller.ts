@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -16,8 +17,8 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {
-  Torneo,
   FaseTorneo,
+  Torneo,
 } from '../models';
 import {TorneoRepository} from '../repositories';
 
@@ -45,6 +46,7 @@ export class TorneoFaseTorneoController {
     return this.torneoRepository.fasesTorneo(id).find(filter);
   }
 
+  @authenticate('jwt')
   @post('/torneos/{id}/fase-torneos', {
     responses: {
       '200': {
@@ -70,6 +72,7 @@ export class TorneoFaseTorneoController {
     return this.torneoRepository.fasesTorneo(id).create(faseTorneo);
   }
 
+  @authenticate('jwt')
   @patch('/torneos/{id}/fase-torneos', {
     responses: {
       '200': {
@@ -93,6 +96,7 @@ export class TorneoFaseTorneoController {
     return this.torneoRepository.fasesTorneo(id).patch(faseTorneo, where);
   }
 
+  @authenticate('jwt')
   @del('/torneos/{id}/fase-torneos', {
     responses: {
       '200': {

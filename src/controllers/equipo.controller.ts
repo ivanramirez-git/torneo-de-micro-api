@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {EquipoRepository} from '../repositories';
 export class EquipoController {
   constructor(
     @repository(EquipoRepository)
-    public equipoRepository : EquipoRepository,
-  ) {}
+    public equipoRepository: EquipoRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/equipos')
   @response(200, {
     description: 'Equipo model instance',
@@ -76,6 +78,7 @@ export class EquipoController {
     return this.equipoRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/equipos')
   @response(200, {
     description: 'Equipo PATCH success count',
@@ -111,6 +114,7 @@ export class EquipoController {
     return this.equipoRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/equipos/{id}')
   @response(204, {
     description: 'Equipo PATCH success',
@@ -129,6 +133,7 @@ export class EquipoController {
     await this.equipoRepository.updateById(id, equipo);
   }
 
+  @authenticate('jwt')
   @put('/equipos/{id}')
   @response(204, {
     description: 'Equipo PUT success',
@@ -140,6 +145,7 @@ export class EquipoController {
     await this.equipoRepository.replaceById(id, equipo);
   }
 
+  @authenticate('jwt')
   @del('/equipos/{id}')
   @response(204, {
     description: 'Equipo DELETE success',

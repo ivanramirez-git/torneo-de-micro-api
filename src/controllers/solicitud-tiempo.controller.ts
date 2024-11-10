@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {SolicitudTiempoRepository} from '../repositories';
 export class SolicitudTiempoController {
   constructor(
     @repository(SolicitudTiempoRepository)
-    public solicitudTiempoRepository : SolicitudTiempoRepository,
-  ) {}
+    public solicitudTiempoRepository: SolicitudTiempoRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/solicitudes-tiempo')
   @response(200, {
     description: 'SolicitudTiempo model instance',
@@ -76,6 +78,7 @@ export class SolicitudTiempoController {
     return this.solicitudTiempoRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/solicitudes-tiempo')
   @response(200, {
     description: 'SolicitudTiempo PATCH success count',
@@ -111,6 +114,7 @@ export class SolicitudTiempoController {
     return this.solicitudTiempoRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/solicitudes-tiempo/{id}')
   @response(204, {
     description: 'SolicitudTiempo PATCH success',
@@ -129,6 +133,7 @@ export class SolicitudTiempoController {
     await this.solicitudTiempoRepository.updateById(id, solicitudTiempo);
   }
 
+  @authenticate('jwt')
   @put('/solicitudes-tiempo/{id}')
   @response(204, {
     description: 'SolicitudTiempo PUT success',
@@ -140,6 +145,7 @@ export class SolicitudTiempoController {
     await this.solicitudTiempoRepository.replaceById(id, solicitudTiempo);
   }
 
+  @authenticate('jwt')
   @del('/solicitudes-tiempo/{id}')
   @response(204, {
     description: 'SolicitudTiempo DELETE success',

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {JugadorRepository} from '../repositories';
 export class JugadorController {
   constructor(
     @repository(JugadorRepository)
-    public jugadorRepository : JugadorRepository,
-  ) {}
+    public jugadorRepository: JugadorRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/jugadores')
   @response(200, {
     description: 'Jugador model instance',
@@ -76,6 +78,7 @@ export class JugadorController {
     return this.jugadorRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/jugadores')
   @response(200, {
     description: 'Jugador PATCH success count',
@@ -111,6 +114,7 @@ export class JugadorController {
     return this.jugadorRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/jugadores/{id}')
   @response(204, {
     description: 'Jugador PATCH success',
@@ -129,6 +133,7 @@ export class JugadorController {
     await this.jugadorRepository.updateById(id, jugador);
   }
 
+  @authenticate('jwt')
   @put('/jugadores/{id}')
   @response(204, {
     description: 'Jugador PUT success',
@@ -140,6 +145,7 @@ export class JugadorController {
     await this.jugadorRepository.replaceById(id, jugador);
   }
 
+  @authenticate('jwt')
   @del('/jugadores/{id}')
   @response(204, {
     description: 'Jugador DELETE success',

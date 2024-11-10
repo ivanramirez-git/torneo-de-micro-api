@@ -1,4 +1,5 @@
 // src/controllers/equipo-partido.controller.ts
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -45,6 +46,7 @@ export class EquipoPartidoController {
     return [...partidosLocal, ...partidosVisitante];
   }
 
+  @authenticate('jwt')
   @post('/equipos/{id}/partidos', {
     responses: {
       '200': {
@@ -76,6 +78,7 @@ export class EquipoPartidoController {
     }
   }
 
+  @authenticate('jwt')
   @patch('/equipos/{id}/partidos', {
     responses: {
       '200': {
@@ -101,6 +104,7 @@ export class EquipoPartidoController {
     return {count: countLocal.count + countVisitante.count};
   }
 
+  @authenticate('jwt')
   @del('/equipos/{id}/partidos', {
     responses: {
       '200': {

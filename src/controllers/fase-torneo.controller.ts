@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {FaseTorneoRepository} from '../repositories';
 export class FaseTorneoController {
   constructor(
     @repository(FaseTorneoRepository)
-    public faseTorneoRepository : FaseTorneoRepository,
-  ) {}
+    public faseTorneoRepository: FaseTorneoRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/fase-torneos')
   @response(200, {
     description: 'FaseTorneo model instance',
@@ -76,6 +78,7 @@ export class FaseTorneoController {
     return this.faseTorneoRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/fase-torneos')
   @response(200, {
     description: 'FaseTorneo PATCH success count',
@@ -111,6 +114,7 @@ export class FaseTorneoController {
     return this.faseTorneoRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/fase-torneos/{id}')
   @response(204, {
     description: 'FaseTorneo PATCH success',
@@ -129,6 +133,7 @@ export class FaseTorneoController {
     await this.faseTorneoRepository.updateById(id, faseTorneo);
   }
 
+  @authenticate('jwt')
   @put('/fase-torneos/{id}')
   @response(204, {
     description: 'FaseTorneo PUT success',
@@ -140,6 +145,7 @@ export class FaseTorneoController {
     await this.faseTorneoRepository.replaceById(id, faseTorneo);
   }
 
+  @authenticate('jwt')
   @del('/fase-torneos/{id}')
   @response(204, {
     description: 'FaseTorneo DELETE success',

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {TorneoRepository} from '../repositories';
 export class TorneoController {
   constructor(
     @repository(TorneoRepository)
-    public torneoRepository : TorneoRepository,
-  ) {}
+    public torneoRepository: TorneoRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/torneos')
   @response(200, {
     description: 'Torneo model instance',
@@ -76,6 +78,7 @@ export class TorneoController {
     return this.torneoRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/torneos')
   @response(200, {
     description: 'Torneo PATCH success count',
@@ -111,6 +114,7 @@ export class TorneoController {
     return this.torneoRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/torneos/{id}')
   @response(204, {
     description: 'Torneo PATCH success',
@@ -129,6 +133,7 @@ export class TorneoController {
     await this.torneoRepository.updateById(id, torneo);
   }
 
+  @authenticate('jwt')
   @put('/torneos/{id}')
   @response(204, {
     description: 'Torneo PUT success',
@@ -140,6 +145,7 @@ export class TorneoController {
     await this.torneoRepository.replaceById(id, torneo);
   }
 
+  @authenticate('jwt')
   @del('/torneos/{id}')
   @response(204, {
     description: 'Torneo DELETE success',

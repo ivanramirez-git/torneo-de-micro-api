@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -45,6 +46,7 @@ export class GrupoPartidoController {
     return this.grupoRepository.partidos(id).find(filter);
   }
 
+  @authenticate('jwt')
   @post('/grupos/{id}/partidos', {
     responses: {
       '200': {
@@ -70,6 +72,7 @@ export class GrupoPartidoController {
     return this.grupoRepository.partidos(id).create(partido);
   }
 
+  @authenticate('jwt')
   @patch('/grupos/{id}/partidos', {
     responses: {
       '200': {
@@ -93,6 +96,7 @@ export class GrupoPartidoController {
     return this.grupoRepository.partidos(id).patch(partido, where);
   }
 
+  @authenticate('jwt')
   @del('/grupos/{id}/partidos', {
     responses: {
       '200': {

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -45,6 +46,7 @@ export class FaseTorneoGrupoController {
     return this.faseTorneoRepository.grupos(id).find(filter);
   }
 
+  @authenticate('jwt')
   @post('/fase-torneos/{id}/grupos', {
     responses: {
       '200': {
@@ -70,6 +72,7 @@ export class FaseTorneoGrupoController {
     return this.faseTorneoRepository.grupos(id).create(grupo);
   }
 
+  @authenticate('jwt')
   @patch('/fase-torneos/{id}/grupos', {
     responses: {
       '200': {
@@ -93,6 +96,7 @@ export class FaseTorneoGrupoController {
     return this.faseTorneoRepository.grupos(id).patch(grupo, where);
   }
 
+  @authenticate('jwt')
   @del('/fase-torneos/{id}/grupos', {
     responses: {
       '200': {

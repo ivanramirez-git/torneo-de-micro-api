@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -45,6 +46,7 @@ export class EquipoJugadorController {
     return this.equipoRepository.jugadores(id).find(filter);
   }
 
+  @authenticate('jwt')
   @post('/equipos/{id}/jugadores', {
     responses: {
       '200': {
@@ -70,6 +72,7 @@ export class EquipoJugadorController {
     return this.equipoRepository.jugadores(id).create(jugador);
   }
 
+  @authenticate('jwt')
   @patch('/equipos/{id}/jugadores', {
     responses: {
       '200': {
@@ -93,6 +96,7 @@ export class EquipoJugadorController {
     return this.equipoRepository.jugadores(id).patch(jugador, where);
   }
 
+  @authenticate('jwt')
   @del('/equipos/{id}/jugadores', {
     responses: {
       '200': {

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {PenalRepository} from '../repositories';
 export class PenalController {
   constructor(
     @repository(PenalRepository)
-    public penalRepository : PenalRepository,
-  ) {}
+    public penalRepository: PenalRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/penales')
   @response(200, {
     description: 'Penal model instance',
@@ -76,6 +78,7 @@ export class PenalController {
     return this.penalRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/penales')
   @response(200, {
     description: 'Penal PATCH success count',
@@ -111,6 +114,7 @@ export class PenalController {
     return this.penalRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/penales/{id}')
   @response(204, {
     description: 'Penal PATCH success',
@@ -129,6 +133,7 @@ export class PenalController {
     await this.penalRepository.updateById(id, penal);
   }
 
+  @authenticate('jwt')
   @put('/penales/{id}')
   @response(204, {
     description: 'Penal PUT success',
@@ -140,6 +145,7 @@ export class PenalController {
     await this.penalRepository.replaceById(id, penal);
   }
 
+  @authenticate('jwt')
   @del('/penales/{id}')
   @response(204, {
     description: 'Penal DELETE success',

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -16,8 +17,8 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {
-  Grupo,
   EquipoGrupo,
+  Grupo,
 } from '../models';
 import {GrupoRepository} from '../repositories';
 
@@ -45,6 +46,7 @@ export class GrupoEquipoGrupoController {
     return this.grupoRepository.equipoGrupos(id).find(filter);
   }
 
+  @authenticate('jwt')
   @post('/grupos/{id}/equipo-grupos', {
     responses: {
       '200': {
@@ -70,6 +72,7 @@ export class GrupoEquipoGrupoController {
     return this.grupoRepository.equipoGrupos(id).create(equipoGrupo);
   }
 
+  @authenticate('jwt')
   @patch('/grupos/{id}/equipo-grupos', {
     responses: {
       '200': {
@@ -93,6 +96,7 @@ export class GrupoEquipoGrupoController {
     return this.grupoRepository.equipoGrupos(id).patch(equipoGrupo, where);
   }
 
+  @authenticate('jwt')
   @del('/grupos/{id}/equipo-grupos', {
     responses: {
       '200': {

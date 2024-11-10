@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {EquipoGrupoRepository} from '../repositories';
 export class EquipoGrupoController {
   constructor(
     @repository(EquipoGrupoRepository)
-    public equipoGrupoRepository : EquipoGrupoRepository,
-  ) {}
+    public equipoGrupoRepository: EquipoGrupoRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/equipos-grupo')
   @response(200, {
     description: 'EquipoGrupo model instance',
@@ -76,6 +78,7 @@ export class EquipoGrupoController {
     return this.equipoGrupoRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/equipos-grupo')
   @response(200, {
     description: 'EquipoGrupo PATCH success count',
@@ -111,6 +114,7 @@ export class EquipoGrupoController {
     return this.equipoGrupoRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/equipos-grupo/{id}')
   @response(204, {
     description: 'EquipoGrupo PATCH success',
@@ -129,6 +133,7 @@ export class EquipoGrupoController {
     await this.equipoGrupoRepository.updateById(id, equipoGrupo);
   }
 
+  @authenticate('jwt')
   @put('/equipos-grupo/{id}')
   @response(204, {
     description: 'EquipoGrupo PUT success',
@@ -140,6 +145,7 @@ export class EquipoGrupoController {
     await this.equipoGrupoRepository.replaceById(id, equipoGrupo);
   }
 
+  @authenticate('jwt')
   @del('/equipos-grupo/{id}')
   @response(204, {
     description: 'EquipoGrupo DELETE success',

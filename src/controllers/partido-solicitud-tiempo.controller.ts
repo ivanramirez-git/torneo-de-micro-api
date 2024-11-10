@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -45,6 +46,7 @@ export class PartidoSolicitudTiempoController {
     return this.partidoRepository.solicitudesTiempo(id).find(filter);
   }
 
+  @authenticate('jwt')
   @post('/partidos/{id}/solicitud-tiempos', {
     responses: {
       '200': {
@@ -70,6 +72,7 @@ export class PartidoSolicitudTiempoController {
     return this.partidoRepository.solicitudesTiempo(id).create(solicitudTiempo);
   }
 
+  @authenticate('jwt')
   @patch('/partidos/{id}/solicitud-tiempos', {
     responses: {
       '200': {
@@ -93,6 +96,7 @@ export class PartidoSolicitudTiempoController {
     return this.partidoRepository.solicitudesTiempo(id).patch(solicitudTiempo, where);
   }
 
+  @authenticate('jwt')
   @del('/partidos/{id}/solicitud-tiempos', {
     responses: {
       '200': {

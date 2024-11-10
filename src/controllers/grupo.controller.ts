@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {GrupoRepository} from '../repositories';
 export class GrupoController {
   constructor(
     @repository(GrupoRepository)
-    public grupoRepository : GrupoRepository,
-  ) {}
+    public grupoRepository: GrupoRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/grupos')
   @response(200, {
     description: 'Grupo model instance',
@@ -76,6 +78,7 @@ export class GrupoController {
     return this.grupoRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/grupos')
   @response(200, {
     description: 'Grupo PATCH success count',
@@ -111,6 +114,7 @@ export class GrupoController {
     return this.grupoRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/grupos/{id}')
   @response(204, {
     description: 'Grupo PATCH success',
@@ -129,6 +133,7 @@ export class GrupoController {
     await this.grupoRepository.updateById(id, grupo);
   }
 
+  @authenticate('jwt')
   @put('/grupos/{id}')
   @response(204, {
     description: 'Grupo PUT success',
@@ -140,6 +145,7 @@ export class GrupoController {
     await this.grupoRepository.replaceById(id, grupo);
   }
 
+  @authenticate('jwt')
   @del('/grupos/{id}')
   @response(204, {
     description: 'Grupo DELETE success',

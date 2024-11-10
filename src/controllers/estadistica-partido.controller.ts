@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {EstadisticaPartidoRepository} from '../repositories';
 export class EstadisticaPartidoController {
   constructor(
     @repository(EstadisticaPartidoRepository)
-    public estadisticaPartidoRepository : EstadisticaPartidoRepository,
-  ) {}
+    public estadisticaPartidoRepository: EstadisticaPartidoRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/estadisticas-partido')
   @response(200, {
     description: 'EstadisticaPartido model instance',
@@ -76,6 +78,7 @@ export class EstadisticaPartidoController {
     return this.estadisticaPartidoRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/estadisticas-partido')
   @response(200, {
     description: 'EstadisticaPartido PATCH success count',
@@ -111,6 +114,7 @@ export class EstadisticaPartidoController {
     return this.estadisticaPartidoRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/estadisticas-partido/{id}')
   @response(204, {
     description: 'EstadisticaPartido PATCH success',
@@ -129,6 +133,7 @@ export class EstadisticaPartidoController {
     await this.estadisticaPartidoRepository.updateById(id, estadisticaPartido);
   }
 
+  @authenticate('jwt')
   @put('/estadisticas-partido/{id}')
   @response(204, {
     description: 'EstadisticaPartido PUT success',
@@ -140,6 +145,7 @@ export class EstadisticaPartidoController {
     await this.estadisticaPartidoRepository.replaceById(id, estadisticaPartido);
   }
 
+  @authenticate('jwt')
   @del('/estadisticas-partido/{id}')
   @response(204, {
     description: 'EstadisticaPartido DELETE success',

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -16,8 +17,8 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {
-  Partido,
   EstadisticaPartido,
+  Partido,
 } from '../models';
 import {PartidoRepository} from '../repositories';
 
@@ -45,6 +46,7 @@ export class PartidoEstadisticaPartidoController {
     return this.partidoRepository.estadisticasPartido(id).find(filter);
   }
 
+  @authenticate('jwt')
   @post('/partidos/{id}/estadistica-partidos', {
     responses: {
       '200': {
@@ -70,6 +72,7 @@ export class PartidoEstadisticaPartidoController {
     return this.partidoRepository.estadisticasPartido(id).create(estadisticaPartido);
   }
 
+  @authenticate('jwt')
   @patch('/partidos/{id}/estadistica-partidos', {
     responses: {
       '200': {
@@ -93,6 +96,7 @@ export class PartidoEstadisticaPartidoController {
     return this.partidoRepository.estadisticasPartido(id).patch(estadisticaPartido, where);
   }
 
+  @authenticate('jwt')
   @del('/partidos/{id}/estadistica-partidos', {
     responses: {
       '200': {

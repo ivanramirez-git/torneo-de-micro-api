@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,13 +8,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,9 +24,10 @@ import {PartidoRepository} from '../repositories';
 export class PartidoController {
   constructor(
     @repository(PartidoRepository)
-    public partidoRepository : PartidoRepository,
-  ) {}
+    public partidoRepository: PartidoRepository,
+  ) { }
 
+  @authenticate('jwt')
   @post('/partidos')
   @response(200, {
     description: 'Partido model instance',
@@ -76,6 +78,7 @@ export class PartidoController {
     return this.partidoRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/partidos')
   @response(200, {
     description: 'Partido PATCH success count',
@@ -111,6 +114,7 @@ export class PartidoController {
     return this.partidoRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/partidos/{id}')
   @response(204, {
     description: 'Partido PATCH success',
@@ -129,6 +133,7 @@ export class PartidoController {
     await this.partidoRepository.updateById(id, partido);
   }
 
+  @authenticate('jwt')
   @put('/partidos/{id}')
   @response(204, {
     description: 'Partido PUT success',
@@ -140,6 +145,7 @@ export class PartidoController {
     await this.partidoRepository.replaceById(id, partido);
   }
 
+  @authenticate('jwt')
   @del('/partidos/{id}')
   @response(204, {
     description: 'Partido DELETE success',
