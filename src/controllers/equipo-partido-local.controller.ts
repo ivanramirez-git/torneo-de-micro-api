@@ -16,26 +16,19 @@ import {
   post,
   requestBody,
 } from '@loopback/rest';
-import {
-  Equipo,
-  Partido,
-} from '../models';
+import {Equipo, Partido} from '../models';
 import {EquipoRepository} from '../repositories';
 
-export class EquipoPartidoController {
+export class EquipoPartidoLocalController {
   constructor(
     @repository(EquipoRepository) protected equipoRepository: EquipoRepository,
   ) { }
 
-  @get('/equipos/{id}/partidos', {
+  @get('/equipos/{id}/partidos-local', {
     responses: {
       '200': {
-        description: 'Array of Equipo has many Partido',
-        content: {
-          'application/json': {
-            schema: {type: 'array', items: getModelSchemaRef(Partido)},
-          },
-        },
+        description: 'Array of Equipo has many Partido as equipoLocal',
+        content: {'application/json': {schema: {type: 'array', items: getModelSchemaRef(Partido)}}},
       },
     },
   })
@@ -46,10 +39,10 @@ export class EquipoPartidoController {
     return this.equipoRepository.partidosEquipoLocal(id).find(filter);
   }
 
-  @post('/equipos/{id}/partidos', {
+  @post('/equipos/{id}/partidos-local', {
     responses: {
       '200': {
-        description: 'Equipo model instance',
+        description: 'Equipo model instance as equipoLocal',
         content: {'application/json': {schema: getModelSchemaRef(Partido)}},
       },
     },
@@ -60,21 +53,22 @@ export class EquipoPartidoController {
       content: {
         'application/json': {
           schema: getModelSchemaRef(Partido, {
-            title: 'NewPartidoInEquipo',
+            title: 'NewPartidoInEquipoLocal',
             exclude: ['id'],
-            optional: ['equipoLocalId']
+            optional: ['equipoLocalId'],
           }),
         },
       },
-    }) partido: Omit<Partido, 'id'>,
+    })
+    partido: Omit<Partido, 'id'>,
   ): Promise<Partido> {
     return this.equipoRepository.partidosEquipoLocal(id).create(partido);
   }
 
-  @patch('/equipos/{id}/partidos', {
+  @patch('/equipos/{id}/partidos-local', {
     responses: {
       '200': {
-        description: 'Equipo.Partido PATCH success count',
+        description: 'Equipo.Partido PATCH success count as equipoLocal',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -83,9 +77,7 @@ export class EquipoPartidoController {
     @param.path.string('id') id: string,
     @requestBody({
       content: {
-        'application/json': {
-          schema: getModelSchemaRef(Partido, {partial: true}),
-        },
+        'application/json': {schema: getModelSchemaRef(Partido, {partial: true})},
       },
     })
     partido: Partial<Partido>,
@@ -94,10 +86,10 @@ export class EquipoPartidoController {
     return this.equipoRepository.partidosEquipoLocal(id).patch(partido, where);
   }
 
-  @del('/equipos/{id}/partidos', {
+  @del('/equipos/{id}/partidos-local', {
     responses: {
       '200': {
-        description: 'Equipo.Partido DELETE success count',
+        description: 'Equipo.Partido DELETE success count as equipoLocal',
         content: {'application/json': {schema: CountSchema}},
       },
     },

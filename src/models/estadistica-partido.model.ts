@@ -50,6 +50,10 @@ export class EstadisticaPartido extends Entity {
   })
   createdAt?: string;
 
+  @property({
+    type: 'string',
+  })
+  partidoId?: string;
 
   constructor(data?: Partial<EstadisticaPartido>) {
     super(data);

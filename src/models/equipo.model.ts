@@ -1,6 +1,8 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Jugador} from './jugador.model';
 import {Partido} from './partido.model';
+import {Grupo} from './grupo.model';
+import {EquipoGrupo} from './equipo-grupo.model';
 
 @model()
 export class Equipo extends Entity {
@@ -42,6 +44,9 @@ export class Equipo extends Entity {
 
   @hasMany(() => Partido, {keyTo: 'equipoVisitanteId'})
   partidosEquipoVisitante: Partido[];
+
+  @hasMany(() => Grupo, {through: {model: () => EquipoGrupo}})
+  grupos: Grupo[];
 
   constructor(data?: Partial<Equipo>) {
     super(data);

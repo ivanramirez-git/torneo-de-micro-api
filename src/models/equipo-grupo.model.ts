@@ -15,6 +15,15 @@ export class EquipoGrupo extends Entity {
   })
   createdAt?: string;
 
+  @property({
+    type: 'string',
+  })
+  equipoId?: string;
+
+  @property({
+    type: 'string',
+  })
+  grupoId?: string;
 
   constructor(data?: Partial<EquipoGrupo>) {
     super(data);

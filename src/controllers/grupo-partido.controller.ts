@@ -1,4 +1,3 @@
-// src/controllers/equipo-partido-visitante.controller.ts
 import {
   Count,
   CountSchema,
@@ -16,19 +15,26 @@ import {
   post,
   requestBody,
 } from '@loopback/rest';
-import {Equipo, Partido} from '../models';
-import {EquipoRepository} from '../repositories';
+import {
+  Grupo,
+  Partido,
+} from '../models';
+import {GrupoRepository} from '../repositories';
 
-export class EquipoPartidoVisitanteController {
+export class GrupoPartidoController {
   constructor(
-    @repository(EquipoRepository) protected equipoRepository: EquipoRepository,
+    @repository(GrupoRepository) protected grupoRepository: GrupoRepository,
   ) { }
 
-  @get('/equipos/{id}/partidos-visitante', {
+  @get('/grupos/{id}/partidos', {
     responses: {
       '200': {
-        description: 'Array of Equipo has many Partido as equipoVisitante',
-        content: {'application/json': {schema: {type: 'array', items: getModelSchemaRef(Partido)}}},
+        description: 'Array of Grupo has many Partido',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(Partido)},
+          },
+        },
       },
     },
   })
@@ -36,39 +42,38 @@ export class EquipoPartidoVisitanteController {
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<Partido>,
   ): Promise<Partido[]> {
-    return this.equipoRepository.partidosEquipoVisitante(id).find(filter);
+    return this.grupoRepository.partidos(id).find(filter);
   }
 
-  @post('/equipos/{id}/partidos-visitante', {
+  @post('/grupos/{id}/partidos', {
     responses: {
       '200': {
-        description: 'Equipo model instance as equipoVisitante',
+        description: 'Grupo model instance',
         content: {'application/json': {schema: getModelSchemaRef(Partido)}},
       },
     },
   })
   async create(
-    @param.path.string('id') id: typeof Equipo.prototype.id,
+    @param.path.string('id') id: typeof Grupo.prototype.id,
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(Partido, {
-            title: 'NewPartidoInEquipoVisitante',
+            title: 'NewPartidoInGrupo',
             exclude: ['id'],
-            optional: ['equipoVisitanteId'],
+            optional: ['grupoId']
           }),
         },
       },
-    })
-    partido: Omit<Partido, 'id'>,
+    }) partido: Omit<Partido, 'id'>,
   ): Promise<Partido> {
-    return this.equipoRepository.partidosEquipoVisitante(id).create(partido);
+    return this.grupoRepository.partidos(id).create(partido);
   }
 
-  @patch('/equipos/{id}/partidos-visitante', {
+  @patch('/grupos/{id}/partidos', {
     responses: {
       '200': {
-        description: 'Equipo.Partido PATCH success count as equipoVisitante',
+        description: 'Grupo.Partido PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -77,19 +82,21 @@ export class EquipoPartidoVisitanteController {
     @param.path.string('id') id: string,
     @requestBody({
       content: {
-        'application/json': {schema: getModelSchemaRef(Partido, {partial: true})},
+        'application/json': {
+          schema: getModelSchemaRef(Partido, {partial: true}),
+        },
       },
     })
     partido: Partial<Partido>,
     @param.query.object('where', getWhereSchemaFor(Partido)) where?: Where<Partido>,
   ): Promise<Count> {
-    return this.equipoRepository.partidosEquipoVisitante(id).patch(partido, where);
+    return this.grupoRepository.partidos(id).patch(partido, where);
   }
 
-  @del('/equipos/{id}/partidos-visitante', {
+  @del('/grupos/{id}/partidos', {
     responses: {
       '200': {
-        description: 'Equipo.Partido DELETE success count as equipoVisitante',
+        description: 'Grupo.Partido DELETE success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -98,6 +105,6 @@ export class EquipoPartidoVisitanteController {
     @param.path.string('id') id: string,
     @param.query.object('where', getWhereSchemaFor(Partido)) where?: Where<Partido>,
   ): Promise<Count> {
-    return this.equipoRepository.partidosEquipoVisitante(id).delete(where);
+    return this.grupoRepository.partidos(id).delete(where);
   }
 }

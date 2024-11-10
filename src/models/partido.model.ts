@@ -1,4 +1,8 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
+import {Lugar} from './lugar.model';
+import {EstadisticaPartido} from './estadistica-partido.model';
+import {SolicitudTiempo} from './solicitud-tiempo.model';
+import {Penal} from './penal.model';
 
 @model()
 export class Partido extends Entity {
@@ -96,6 +100,23 @@ export class Partido extends Entity {
     type: 'string',
   })
   equipoVisitanteId?: string;
+
+  @property({
+    type: 'string',
+  })
+  grupoId?: string;
+
+  @belongsTo(() => Lugar)
+  lugarId: string;
+
+  @hasMany(() => EstadisticaPartido)
+  estadisticasPartido: EstadisticaPartido[];
+
+  @hasMany(() => SolicitudTiempo)
+  solicitudesTiempo: SolicitudTiempo[];
+
+  @hasMany(() => Penal)
+  penales: Penal[];
 
   constructor(data?: Partial<Partido>) {
     super(data);

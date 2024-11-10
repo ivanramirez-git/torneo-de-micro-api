@@ -17,22 +17,22 @@ import {
 } from '@loopback/rest';
 import {
   Equipo,
-  Jugador,
+  Grupo
 } from '../models';
 import {EquipoRepository} from '../repositories';
 
-export class EquipoJugadorController {
+export class EquiposGruposController {
   constructor(
     @repository(EquipoRepository) protected equipoRepository: EquipoRepository,
   ) { }
 
-  @get('/equipos/{id}/jugadores', {
+  @get('/equipos/{id}/grupos', {
     responses: {
       '200': {
-        description: 'Array of Equipo has many Jugador',
+        description: 'Array of Equipo has many Grupo through EquipoGrupo',
         content: {
           'application/json': {
-            schema: {type: 'array', items: getModelSchemaRef(Jugador)},
+            schema: {type: 'array', items: getModelSchemaRef(Grupo)},
           },
         },
       },
@@ -40,16 +40,16 @@ export class EquipoJugadorController {
   })
   async find(
     @param.path.string('id') id: string,
-    @param.query.object('filter') filter?: Filter<Jugador>,
-  ): Promise<Jugador[]> {
-    return this.equipoRepository.jugadores(id).find(filter);
+    @param.query.object('filter') filter?: Filter<Grupo>,
+  ): Promise<Grupo[]> {
+    return this.equipoRepository.grupos(id).find(filter);
   }
 
-  @post('/equipos/{id}/jugadores', {
+  @post('/equipos/{id}/grupos', {
     responses: {
       '200': {
-        description: 'Equipo model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Jugador)}},
+        description: 'create a Grupo model instance',
+        content: {'application/json': {schema: getModelSchemaRef(Grupo)}},
       },
     },
   })
@@ -58,22 +58,21 @@ export class EquipoJugadorController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Jugador, {
-            title: 'NewJugadorInEquipo',
+          schema: getModelSchemaRef(Grupo, {
+            title: 'NewGrupoInEquipo',
             exclude: ['id'],
-            optional: ['equipoId']
           }),
         },
       },
-    }) jugador: Omit<Jugador, 'id'>,
-  ): Promise<Jugador> {
-    return this.equipoRepository.jugadores(id).create(jugador);
+    }) grupo: Omit<Grupo, 'id'>,
+  ): Promise<Grupo> {
+    return this.equipoRepository.grupos(id).create(grupo);
   }
 
-  @patch('/equipos/{id}/jugadores', {
+  @patch('/equipos/{id}/grupos', {
     responses: {
       '200': {
-        description: 'Equipo.Jugador PATCH success count',
+        description: 'Equipo.Grupo PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -83,28 +82,28 @@ export class EquipoJugadorController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Jugador, {partial: true}),
+          schema: getModelSchemaRef(Grupo, {partial: true}),
         },
       },
     })
-    jugador: Partial<Jugador>,
-    @param.query.object('where', getWhereSchemaFor(Jugador)) where?: Where<Jugador>,
+    grupo: Partial<Grupo>,
+    @param.query.object('where', getWhereSchemaFor(Grupo)) where?: Where<Grupo>,
   ): Promise<Count> {
-    return this.equipoRepository.jugadores(id).patch(jugador, where);
+    return this.equipoRepository.grupos(id).patch(grupo, where);
   }
 
-  @del('/equipos/{id}/jugadores', {
+  @del('/equipos/{id}/grupos', {
     responses: {
       '200': {
-        description: 'Equipo.Jugador DELETE success count',
+        description: 'Equipo.Grupo DELETE success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
   })
   async delete(
     @param.path.string('id') id: string,
-    @param.query.object('where', getWhereSchemaFor(Jugador)) where?: Where<Jugador>,
+    @param.query.object('where', getWhereSchemaFor(Grupo)) where?: Where<Grupo>,
   ): Promise<Count> {
-    return this.equipoRepository.jugadores(id).delete(where);
+    return this.equipoRepository.grupos(id).delete(where);
   }
 }

@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Grupo} from './grupo.model';
 
 @model()
 export class FaseTorneo extends Entity {
@@ -33,6 +34,13 @@ export class FaseTorneo extends Entity {
   })
   createdAt?: string;
 
+  @property({
+    type: 'string',
+  })
+  torneoId?: string;
+
+  @hasMany(() => Grupo, {keyTo: 'faseTorneoId'})
+  grupos: Grupo[];
 
   constructor(data?: Partial<FaseTorneo>) {
     super(data);
