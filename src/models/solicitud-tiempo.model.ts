@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Equipo} from './equipo.model';
+import {Partido} from './partido.model';
 
 @model()
 export class SolicitudTiempo extends Entity {
@@ -24,18 +26,11 @@ export class SolicitudTiempo extends Entity {
     defaultFn: 'now',
   })
   createdAt?: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  partidoId: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
+  @belongsTo(() => Equipo)
   equipoId: string;
+
+  @belongsTo(() => Partido)
+  partidoId: string;
 
   constructor(data?: Partial<SolicitudTiempo>) {
     super(data);

@@ -30,3 +30,8 @@ export * from './equipo-solicitud-tiempo.controller';
 export * from './grupo-fase-torneo.controller';
 export * from './partido-grupo.controller';
 export * from './partido-jugador.controller';
+export * from './estadistica-partido-partido.controller';
+export * from './estadistica-partido-equipo.controller';
+export * from './estadistica-partido-jugador.controller';
+export * from './solicitud-tiempo-equipo.controller';
+export * from './solicitud-tiempo-partido.controller';
