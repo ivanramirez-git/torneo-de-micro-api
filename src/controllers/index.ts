@@ -35,3 +35,5 @@ export * from './estadistica-partido-equipo.controller';
 export * from './estadistica-partido-jugador.controller';
 export * from './solicitud-tiempo-equipo.controller';
 export * from './solicitud-tiempo-partido.controller';
+export * from './penal-partido.controller';
+export * from './penal-equipo.controller';
