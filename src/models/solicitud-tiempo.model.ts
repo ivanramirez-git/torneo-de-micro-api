@@ -27,8 +27,15 @@ export class SolicitudTiempo extends Entity {
 
   @property({
     type: 'string',
+    required: true,
   })
-  partidoId?: string;
+  partidoId: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  equipoId: string;
 
   constructor(data?: Partial<SolicitudTiempo>) {
     super(data);

@@ -3,6 +3,7 @@ import {Jugador} from './jugador.model';
 import {Partido} from './partido.model';
 import {Grupo} from './grupo.model';
 import {EquipoGrupo} from './equipo-grupo.model';
+import {SolicitudTiempo} from './solicitud-tiempo.model';
 
 @model()
 export class Equipo extends Entity {
@@ -47,6 +48,9 @@ export class Equipo extends Entity {
 
   @hasMany(() => Grupo, {through: {model: () => EquipoGrupo}})
   grupos: Grupo[];
+
+  @hasMany(() => SolicitudTiempo)
+  solicitudesTiempo: SolicitudTiempo[];
 
   constructor(data?: Partial<Equipo>) {
     super(data);

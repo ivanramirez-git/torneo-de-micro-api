@@ -1,8 +1,10 @@
-import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
-import {Lugar} from './lugar.model';
+import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {EstadisticaPartido} from './estadistica-partido.model';
-import {SolicitudTiempo} from './solicitud-tiempo.model';
+import {Grupo} from './grupo.model';
+import {Lugar} from './lugar.model';
 import {Penal} from './penal.model';
+import {SolicitudTiempo} from './solicitud-tiempo.model';
+import {Jugador} from './jugador.model';
 
 @model()
 export class Partido extends Entity {
@@ -88,26 +90,15 @@ export class Partido extends Entity {
 
   @property({
     type: 'string',
+    required: true,
   })
-  equipoAId?: string;
+  equipoLocalId: string;
 
   @property({
     type: 'string',
+    required: true,
   })
-  equipoLocalId?: string;
-
-  @property({
-    type: 'string',
-  })
-  equipoVisitanteId?: string;
-
-  @property({
-    type: 'string',
-  })
-  grupoId?: string;
-
-  @belongsTo(() => Lugar)
-  lugarId: string;
+  equipoVisitanteId: string;
 
   @hasMany(() => EstadisticaPartido)
   estadisticasPartido: EstadisticaPartido[];
@@ -117,6 +108,21 @@ export class Partido extends Entity {
 
   @hasMany(() => Penal)
   penales: Penal[];
+
+  @belongsTo(() => Grupo)
+  grupoId: string;
+
+  @belongsTo(() => Lugar)
+  lugarId: string;
+
+  @belongsTo(() => Jugador)
+  mvpId: string;
+
+  @belongsTo(() => Jugador)
+  capitanEquipoLocalId: string;
+
+  @belongsTo(() => Jugador)
+  capitanEquipoVisitanteId: string;
 
   constructor(data?: Partial<Partido>) {
     super(data);

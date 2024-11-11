@@ -49,6 +49,31 @@ export class JugadorController {
     return this.jugadorRepository.create(jugador);
   }
 
+  @authenticate('jwt')
+  @post('/jugadores/multiple')
+  @response(200, {
+    description: 'Array of Jugador model instances',
+    content: {'application/json': {schema: {type: 'array', items: getModelSchemaRef(Jugador)}}},
+  })
+  async createMultiple(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: {
+            type: 'array',
+            items: getModelSchemaRef(Jugador, {
+              title: 'NewJugador',
+              exclude: ['id'],
+            }),
+          },
+        },
+      },
+    })
+    jugadores: Omit<Jugador, 'id'>[],
+  ): Promise<Jugador[]> {
+    return this.jugadorRepository.createAll(jugadores);
+  }
+
   @get('/jugadores/count')
   @response(200, {
     description: 'Jugador model count',
