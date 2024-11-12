@@ -56,10 +56,10 @@ export class PartidoJugadorController {
     return this.partidoRepository.capitanEquipoVisitante(id);
   }
 
-  @get('/partidos/{id}/jugador-mvp', {
+  @get('/partidos/{id}/jugador-mvp-equipo-local', {
     responses: {
       '200': {
-        description: 'Jugador MVP belonging to Partido',
+        description: 'Jugador mvp equipo local belonging to Partido',
         content: {
           'application/json': {
             schema: getModelSchemaRef(Jugador),
@@ -68,9 +68,28 @@ export class PartidoJugadorController {
       },
     },
   })
-  async getJugadorMvp(
+  async getJugadorMvpEquipoLocal(
     @param.path.string('id') id: typeof Partido.prototype.id,
   ): Promise<Jugador> {
-    return this.partidoRepository.mvp(id);
+    return this.partidoRepository.mvpEquipoLocal(id);
+  }
+
+
+  @get('/partidos/{id}/jugador-mvp-equipo-visitante', {
+    responses: {
+      '200': {
+        description: 'Jugador mvp equipo visitante belonging to Partido',
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(Jugador),
+          },
+        },
+      },
+    },
+  })
+  async getJugadorMvpEquipoVisitante(
+    @param.path.string('id') id: typeof Partido.prototype.id,
+  ): Promise<Jugador> {
+    return this.partidoRepository.mvpEquipoVisitante(id);
   }
 }

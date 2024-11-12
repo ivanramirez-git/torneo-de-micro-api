@@ -1,13 +1,13 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor, HasManyRepositoryFactory} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
 import {MongoDataSource} from '../datasources';
-import {Partido, PartidoRelations, Lugar, EstadisticaPartido, SolicitudTiempo, Penal, Grupo, Jugador} from '../models';
-import {LugarRepository} from './lugar.repository';
+import {EstadisticaPartido, Grupo, Jugador, Lugar, Partido, PartidoRelations, Penal, SolicitudTiempo} from '../models';
 import {EstadisticaPartidoRepository} from './estadistica-partido.repository';
-import {SolicitudTiempoRepository} from './solicitud-tiempo.repository';
-import {PenalRepository} from './penal.repository';
 import {GrupoRepository} from './grupo.repository';
 import {JugadorRepository} from './jugador.repository';
+import {LugarRepository} from './lugar.repository';
+import {PenalRepository} from './penal.repository';
+import {SolicitudTiempoRepository} from './solicitud-tiempo.repository';
 
 export class PartidoRepository extends DefaultCrudRepository<
   Partido,
@@ -25,7 +25,9 @@ export class PartidoRepository extends DefaultCrudRepository<
 
   public readonly grupo: BelongsToAccessor<Grupo, typeof Partido.prototype.id>;
 
-  public readonly mvp: BelongsToAccessor<Jugador, typeof Partido.prototype.id>;
+  public readonly mvpEquipoLocal: BelongsToAccessor<Jugador, typeof Partido.prototype.id>;
+
+  public readonly mvpEquipoVisitante: BelongsToAccessor<Jugador, typeof Partido.prototype.id>;
 
   public readonly capitanEquipoLocal: BelongsToAccessor<Jugador, typeof Partido.prototype.id>;
 
@@ -39,8 +41,10 @@ export class PartidoRepository extends DefaultCrudRepository<
     this.registerInclusionResolver('capitanEquipoVisitante', this.capitanEquipoVisitante.inclusionResolver);
     this.capitanEquipoLocal = this.createBelongsToAccessorFor('capitanEquipoLocal', jugadorRepositoryGetter,);
     this.registerInclusionResolver('capitanEquipoLocal', this.capitanEquipoLocal.inclusionResolver);
-    this.mvp = this.createBelongsToAccessorFor('mvp', jugadorRepositoryGetter,);
-    this.registerInclusionResolver('mvp', this.mvp.inclusionResolver);
+    this.mvpEquipoLocal = this.createBelongsToAccessorFor('mvpEquipoLocal', jugadorRepositoryGetter,);
+    this.registerInclusionResolver('mvpEquipoLocal', this.mvpEquipoLocal.inclusionResolver);
+    this.mvpEquipoVisitante = this.createBelongsToAccessorFor('mvpEquipoVisitante', jugadorRepositoryGetter,);
+    this.registerInclusionResolver('mvpEquipoVisitante', this.mvpEquipoVisitante.inclusionResolver);
     this.grupo = this.createBelongsToAccessorFor('grupo', grupoRepositoryGetter,);
     this.registerInclusionResolver('grupo', this.grupo.inclusionResolver);
     this.penales = this.createHasManyRepositoryFactoryFor('penales', penalRepositoryGetter,);

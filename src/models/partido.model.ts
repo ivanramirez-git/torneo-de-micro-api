@@ -1,10 +1,10 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {EstadisticaPartido} from './estadistica-partido.model';
 import {Grupo} from './grupo.model';
+import {Jugador} from './jugador.model';
 import {Lugar} from './lugar.model';
 import {Penal} from './penal.model';
 import {SolicitudTiempo} from './solicitud-tiempo.model';
-import {Jugador} from './jugador.model';
 
 @model()
 export class Partido extends Entity {
@@ -116,7 +116,10 @@ export class Partido extends Entity {
   lugarId: string;
 
   @belongsTo(() => Jugador)
-  mvpId: string;
+  mvpEquipoLocalId: string;
+
+  @belongsTo(() => Jugador)
+  mvpEquipoVisitanteId: string;
 
   @belongsTo(() => Jugador)
   capitanEquipoLocalId: string;
