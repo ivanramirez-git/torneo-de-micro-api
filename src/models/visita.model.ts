@@ -9,6 +9,23 @@ export class Visita extends Model {
   })
   id?: string;
 
+  @property({
+    type: 'date',
+    required: true,
+  })
+  fechaVisita: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  url: string;
+
+  @property({
+    type: 'object',
+    required: true,
+  })
+  headers: object;
 
   constructor(data?: Partial<Visita>) {
     super(data);
