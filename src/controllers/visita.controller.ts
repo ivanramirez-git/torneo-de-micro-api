@@ -1,3 +1,4 @@
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -14,8 +15,10 @@ import {
   patch,
   post,
   put,
+  Request,
   requestBody,
   response,
+  RestBindings
 } from '@loopback/rest';
 import {Visita} from '../models';
 import {VisitaRepository} from '../repositories';
@@ -24,6 +27,8 @@ export class VisitaController {
   constructor(
     @repository(VisitaRepository)
     public visitaRepository: VisitaRepository,
+    @inject(RestBindings.Http.REQUEST)
+    private req: Request
   ) { }
 
   @post('/visitas')
@@ -44,7 +49,15 @@ export class VisitaController {
     })
     visita: Omit<Visita, 'id'>,
   ): Promise<Visita> {
-    return this.visitaRepository.create(visita);
+
+    const visitaSave: Visita = {
+      ...visita,
+      fechaVisita: new Date().toISOString(),
+      url: this.req.url,
+      headers: Object.assign({}, this.req.headers),
+    };
+
+    return this.visitaRepository.create(visitaSave);
   }
 
   @get('/visitas/count')

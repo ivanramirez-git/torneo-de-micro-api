@@ -11,21 +11,18 @@ export class Visita extends Entity {
 
   @property({
     type: 'date',
-    required: true,
   })
-  fechaVisita: string;
+  fechaVisita?: string;
 
   @property({
     type: 'string',
-    required: true,
   })
-  url: string;
+  url?: string;
 
   @property({
     type: 'object',
-    required: true,
   })
-  headers: object;
+  headers?: object;
 
   constructor(data?: Partial<Visita>) {
     super(data);
