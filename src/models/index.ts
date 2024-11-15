@@ -9,3 +9,4 @@ export * from './partido.model';
 export * from './estadistica-partido.model';
 export * from './solicitud-tiempo.model';
 export * from './penal.model';
+export * from './visita.model';

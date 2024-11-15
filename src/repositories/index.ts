@@ -9,3 +9,4 @@ export * from './partido.repository';
 export * from './penal.repository';
 export * from './solicitud-tiempo.repository';
 export * from './torneo.repository';
+export * from './visita.repository';
