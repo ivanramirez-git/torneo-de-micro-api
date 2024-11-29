@@ -1,12 +1,13 @@
 import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, HasManyRepositoryFactory, HasManyThroughRepositoryFactory} from '@loopback/repository';
+import {DefaultCrudRepository, repository, HasManyRepositoryFactory, HasManyThroughRepositoryFactory, BelongsToAccessor} from '@loopback/repository';
 import {MongoDataSource} from '../datasources';
-import {Equipo, EquipoRelations, Jugador, Partido, Grupo, EquipoGrupo, SolicitudTiempo} from '../models';
+import {Equipo, EquipoRelations, Jugador, Partido, Grupo, EquipoGrupo, SolicitudTiempo, Torneo} from '../models';
 import {JugadorRepository} from './jugador.repository';
 import {PartidoRepository} from './partido.repository';
 import {EquipoGrupoRepository} from './equipo-grupo.repository';
 import {GrupoRepository} from './grupo.repository';
 import {SolicitudTiempoRepository} from './solicitud-tiempo.repository';
+import {TorneoRepository} from './torneo.repository';
 
 export class EquipoRepository extends DefaultCrudRepository<
   Equipo,
@@ -27,10 +28,14 @@ export class EquipoRepository extends DefaultCrudRepository<
 
   public readonly solicitudesTiempo: HasManyRepositoryFactory<SolicitudTiempo, typeof Equipo.prototype.id>;
 
+  public readonly torneo: BelongsToAccessor<Torneo, typeof Equipo.prototype.id>;
+
   constructor(
-    @inject('datasources.mongo') dataSource: MongoDataSource, @repository.getter('JugadorRepository') protected jugadorRepositoryGetter: Getter<JugadorRepository>, @repository.getter('PartidoRepository') protected partidoRepositoryGetter: Getter<PartidoRepository>, @repository.getter('EquipoGrupoRepository') protected equipoGrupoRepositoryGetter: Getter<EquipoGrupoRepository>, @repository.getter('GrupoRepository') protected grupoRepositoryGetter: Getter<GrupoRepository>, @repository.getter('SolicitudTiempoRepository') protected solicitudTiempoRepositoryGetter: Getter<SolicitudTiempoRepository>,
+    @inject('datasources.mongo') dataSource: MongoDataSource, @repository.getter('JugadorRepository') protected jugadorRepositoryGetter: Getter<JugadorRepository>, @repository.getter('PartidoRepository') protected partidoRepositoryGetter: Getter<PartidoRepository>, @repository.getter('EquipoGrupoRepository') protected equipoGrupoRepositoryGetter: Getter<EquipoGrupoRepository>, @repository.getter('GrupoRepository') protected grupoRepositoryGetter: Getter<GrupoRepository>, @repository.getter('SolicitudTiempoRepository') protected solicitudTiempoRepositoryGetter: Getter<SolicitudTiempoRepository>, @repository.getter('TorneoRepository') protected torneoRepositoryGetter: Getter<TorneoRepository>,
   ) {
     super(Equipo, dataSource);
+    this.torneo = this.createBelongsToAccessorFor('torneo', torneoRepositoryGetter,);
+    this.registerInclusionResolver('torneo', this.torneo.inclusionResolver);
     this.solicitudesTiempo = this.createHasManyRepositoryFactoryFor('solicitudesTiempo', solicitudTiempoRepositoryGetter,);
     this.registerInclusionResolver('solicitudesTiempo', this.solicitudesTiempo.inclusionResolver);
     this.grupos = this.createHasManyThroughRepositoryFactoryFor('grupos', grupoRepositoryGetter, equipoGrupoRepositoryGetter,);

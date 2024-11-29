@@ -38,3 +38,5 @@ export * from './solicitud-tiempo-partido.controller';
 export * from './penal-partido.controller';
 export * from './penal-equipo.controller';
 export * from './visita.controller';
+export * from './equipo-torneo.controller';
+export * from './torneo-equipo.controller';
