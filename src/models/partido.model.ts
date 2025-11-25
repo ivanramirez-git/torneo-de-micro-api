@@ -100,6 +100,18 @@ export class Partido extends Entity {
   })
   equipoVisitanteId: string;
 
+  @property({
+    type: 'boolean',
+    default: false,
+  })
+  equipoLocalSancionado?: boolean;
+
+  @property({
+    type: 'boolean',
+    default: false,
+  })
+  equipoVisitanteSancionado?: boolean;
+
   @hasMany(() => EstadisticaPartido)
   estadisticasPartido: EstadisticaPartido[];
 
