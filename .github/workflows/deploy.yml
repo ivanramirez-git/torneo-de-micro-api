@@ -1,0 +1,27 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_prod:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    environment: cicd
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Deploy to CapRover
+        run: |
+          echo "Desplegando a Producción..."
+          npx caprover deploy \
+            --caproverUrl "${{ secrets.CAPROVER_URL }}" \
+            --caproverPassword "${{ secrets.CAPROVER_PASSWORD }}" \
+            --caproverApp "${{ vars.CAPROVER_APP }}" \
+            --branch main
